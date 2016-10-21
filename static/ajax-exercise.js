@@ -3,9 +3,14 @@
 
 // PART 1: SHOW A FORTUNE
 
-function showFortune(evt) {
+function replaceFortune(result) {
+    var fortune = result;
+    $('#fortune-text').html(fortune);
+}
 
-    // TODO: get the fortune and show it in the #fortune-text div
+
+function showFortune(evt) {
+    $.get('/fortune', replaceFortune);
 }
 
 $('#get-fortune-button').on('click', showFortune);
@@ -16,10 +21,21 @@ $('#get-fortune-button').on('click', showFortune);
 
 // PART 2: SHOW WEATHER
 
+function replaceWeather(result) {
+    var forecast = result.forecast;
+    $("#weather-info").html(forecast);
+}
+
 function showWeather(evt) {
     evt.preventDefault();
 
-    var url = "/weather?zipcode=" + $("#zipcode-field").val();
+    // var url = "/weather.json?zipcode=" + $("#zipcode-field").val();
+
+    // $.get(url, replaceWeather);
+
+    var formInputs = {'zipcode': $('#zipcode-field').val()};
+
+    $.get('/weather.json', formInputs, replaceWeather);
 
     // TODO: request weather with that URL and show the forecast in #weather-info
 }
